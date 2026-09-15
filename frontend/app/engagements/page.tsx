@@ -87,13 +87,13 @@ export default function EngagementsPage() {
   return (
     <AuthGuard>
       <Navbar />
-      <main className="flex-1 max-w-5xl mx-auto w-full px-6 py-8 animate-fade-in">
+      <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-8 animate-fade-in">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Engagements</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Engagements</h1>
           {canCreate && (
             <button
               onClick={() => setShowForm(!showForm)}
-              className="text-xs font-semibold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 rounded-lg px-4 py-2 hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-all duration-200 active:scale-95 shadow-xs"
+              className="text-xs font-semibold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 rounded-lg px-3.5 py-2 hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-all duration-200 active:scale-95 shadow-xs shrink-0"
             >
               {showForm ? 'Cancel' : '+ New Engagement'}
             </button>
@@ -102,8 +102,8 @@ export default function EngagementsPage() {
 
         {/* Create form */}
         {showForm && (
-          <form onSubmit={handleCreate} className="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-xl p-6 mb-6 grid grid-cols-2 gap-4 shadow-sm animate-scale-in">
-            <div className="col-span-2">
+          <form onSubmit={handleCreate} className="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-xl p-4 sm:p-6 mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4 shadow-sm animate-scale-in">
+            <div className="col-span-1 sm:col-span-2">
               <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Title</label>
               <input required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
                 className="w-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600" />
@@ -134,13 +134,13 @@ export default function EngagementsPage() {
               <input type="date" value={form.dueDate} onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
                 className="w-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600" />
             </div>
-            <div className="col-span-2">
+            <div className="col-span-1 sm:col-span-2">
               <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Notes (optional)</label>
               <textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} rows={2}
                 className="w-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600" />
             </div>
-            {formError && <p className="col-span-2 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{formError}</p>}
-            <div className="col-span-2 flex justify-end gap-3">
+            {formError && <p className="col-span-1 sm:col-span-2 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{formError}</p>}
+            <div className="col-span-1 sm:col-span-2 flex justify-end gap-3">
               <button type="button" onClick={() => setShowForm(false)} className="text-xs text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 rounded-lg px-4 py-2">Cancel</button>
               <button type="submit" disabled={submitting} className="text-xs font-semibold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 rounded-lg px-4 py-2 hover:bg-zinc-700 dark:hover:bg-zinc-200 disabled:opacity-50">
                 {submitting ? 'Creating…' : 'Create Engagement'}
@@ -171,7 +171,7 @@ export default function EngagementsPage() {
           ) : (
             paginatedEngagements.map((eng) => (
               <Link key={eng.id} href={`/engagements/${eng.id}`}
-                className="group flex items-center justify-between px-4 py-3.5 hover:bg-zinc-50/80 dark:hover:bg-zinc-800/50 transition-colors">
+                className="group flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-800/50 transition-colors gap-2">
                 <div className="flex flex-col gap-0.5 min-w-0">
                   <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                     {eng.title}
@@ -180,7 +180,7 @@ export default function EngagementsPage() {
                     {eng.client?.name ?? '—'} · {eng.serviceType?.name ?? '—'} · Period: {eng.periodKey}
                   </span>
                 </div>
-                <div className="flex items-center gap-3 shrink-0 ml-4">
+                <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-1 sm:pt-0 border-t sm:border-t-0 border-zinc-100 dark:border-zinc-800/50">
                   {eng.dueDate && (
                     <span className="text-xs text-zinc-400 dark:text-zinc-500 font-mono">
                       {new Date(eng.dueDate).toLocaleDateString()}
@@ -194,6 +194,7 @@ export default function EngagementsPage() {
             ))
           )}
         </div>
+
 
         {/* Pagination */}
         {!loading && (

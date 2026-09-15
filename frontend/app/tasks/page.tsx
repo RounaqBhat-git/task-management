@@ -48,18 +48,18 @@ export default function TasksPage() {
   return (
     <AuthGuard>
       <Navbar />
-      <main className="flex-1 max-w-5xl mx-auto w-full px-6 py-8 animate-fade-in">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Tasks</h1>
+      <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-8 animate-fade-in">
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
+          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Tasks</h1>
         </div>
 
-        {/* Status filter tabs */}
-        <div className="flex gap-1.5 flex-wrap mb-6">
+        {/* Status filter tabs - horizontally scrollable on mobile */}
+        <div className="flex gap-1.5 overflow-x-auto pb-2 sm:pb-0 no-scrollbar mb-6 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
           {STATUS_FILTERS.map((f) => (
             <button
               key={f.value}
               onClick={() => setFilter(f.value)}
-              className={`text-xs rounded-full px-3 py-1.5 border transition-all duration-200 active:scale-95 ${
+              className={`text-xs rounded-full px-3 py-1.5 border shrink-0 transition-all duration-200 active:scale-95 ${
                 filter === f.value
                   ? 'bg-zinc-900 text-white border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100 font-semibold shadow-xs'
                   : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400 hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-800 dark:hover:border-zinc-600 dark:hover:bg-zinc-800'
@@ -77,54 +77,92 @@ export default function TasksPage() {
         )}
 
         <div className="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-xl overflow-hidden shadow-xs">
-          <table className="w-full text-sm">
-            <thead className="bg-zinc-50 dark:bg-zinc-800/60 border-b border-zinc-200/80 dark:border-zinc-800">
-              <tr>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Task</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Engagement</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Assigned To</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Due</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800/80">
-              {loading ? (
-                Array.from({ length: 5 }).map((_, i) => (
-                  <tr key={i} className="animate-pulse">
-                    <td className="px-4 py-4"><div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4" /></td>
-                    <td className="px-4 py-4"><div className="h-3 bg-zinc-150 dark:bg-zinc-800/60 rounded w-1/2" /></td>
-                    <td className="px-4 py-4"><div className="h-3 bg-zinc-150 dark:bg-zinc-800/60 rounded w-1/3" /></td>
-                    <td className="px-4 py-4"><div className="h-3 bg-zinc-150 dark:bg-zinc-800/60 rounded w-16" /></td>
-                    <td className="px-4 py-4"><div className="h-5 bg-zinc-200 dark:bg-zinc-800 rounded-full w-24" /></td>
-                  </tr>
-                ))
-              ) : paginatedTasks.length === 0 ? (
-                <tr><td colSpan={5} className="text-center py-12 text-zinc-400 dark:text-zinc-500 text-sm">No tasks found.</td></tr>
-              ) : (
-                paginatedTasks.map((task) => (
-                  <tr key={task.id} className="hover:bg-zinc-50/80 dark:hover:bg-zinc-800/50 transition-colors duration-150">
-                    <td className="px-4 py-3.5">
-                      <Link href={`/tasks/${task.id}`} className="font-medium text-zinc-900 dark:text-zinc-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                        {task.title}
-                      </Link>
-                    </td>
-                    <td className="px-4 py-3.5 text-zinc-500 dark:text-zinc-400 text-xs">
-                      {task.engagement ? (
-                        <Link href={`/engagements/${task.engagementId}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                          {task.engagement.title}
+          {/* Desktop Table View */}
+          <div className="hidden sm:block overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-zinc-50 dark:bg-zinc-800/60 border-b border-zinc-200/80 dark:border-zinc-800">
+                <tr>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Task</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Engagement</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Assigned To</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Due</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800/80">
+                {loading ? (
+                  Array.from({ length: 5 }).map((_, i) => (
+                    <tr key={i} className="animate-pulse">
+                      <td className="px-4 py-4"><div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4" /></td>
+                      <td className="px-4 py-4"><div className="h-3 bg-zinc-150 dark:bg-zinc-800/60 rounded w-1/2" /></td>
+                      <td className="px-4 py-4"><div className="h-3 bg-zinc-150 dark:bg-zinc-800/60 rounded w-1/3" /></td>
+                      <td className="px-4 py-4"><div className="h-3 bg-zinc-150 dark:bg-zinc-800/60 rounded w-16" /></td>
+                      <td className="px-4 py-4"><div className="h-5 bg-zinc-200 dark:bg-zinc-800 rounded-full w-24" /></td>
+                    </tr>
+                  ))
+                ) : paginatedTasks.length === 0 ? (
+                  <tr><td colSpan={5} className="text-center py-12 text-zinc-400 dark:text-zinc-500 text-sm">No tasks found.</td></tr>
+                ) : (
+                  paginatedTasks.map((task) => (
+                    <tr key={task.id} className="hover:bg-zinc-50/80 dark:hover:bg-zinc-800/50 transition-colors duration-150">
+                      <td className="px-4 py-3.5">
+                        <Link href={`/tasks/${task.id}`} className="font-medium text-zinc-900 dark:text-zinc-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                          {task.title}
                         </Link>
-                      ) : '—'}
-                    </td>
-                    <td className="px-4 py-3.5 text-zinc-500 dark:text-zinc-400">{task.assignedTo?.name ?? '—'}</td>
-                    <td className="px-4 py-3.5 text-zinc-400 dark:text-zinc-500 text-xs font-mono">
-                      {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '—'}
-                    </td>
-                    <td className="px-4 py-3.5"><StatusBadge status={task.status} /></td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                      </td>
+                      <td className="px-4 py-3.5 text-zinc-500 dark:text-zinc-400 text-xs">
+                        {task.engagement ? (
+                          <Link href={`/engagements/${task.engagementId}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                            {task.engagement.title}
+                          </Link>
+                        ) : '—'}
+                      </td>
+                      <td className="px-4 py-3.5 text-zinc-500 dark:text-zinc-400">{task.assignedTo?.name ?? '—'}</td>
+                      <td className="px-4 py-3.5 text-zinc-400 dark:text-zinc-500 text-xs font-mono">
+                        {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '—'}
+                      </td>
+                      <td className="px-4 py-3.5"><StatusBadge status={task.status} /></td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile Card List View */}
+          <div className="block sm:hidden divide-y divide-zinc-100 dark:divide-zinc-800/80">
+            {loading ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="p-4 space-y-2 animate-pulse">
+                  <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-2/3" />
+                  <div className="h-3 bg-zinc-150 dark:bg-zinc-800/60 rounded w-1/2" />
+                </div>
+              ))
+            ) : paginatedTasks.length === 0 ? (
+              <p className="text-center py-12 text-zinc-400 dark:text-zinc-500 text-sm">No tasks found.</p>
+            ) : (
+              paginatedTasks.map((task) => (
+                <div key={task.id} className="p-4 space-y-2 hover:bg-zinc-50/50 dark:hover:bg-zinc-800/40 transition-colors">
+                  <div className="flex items-start justify-between gap-2">
+                    <Link href={`/tasks/${task.id}`} className="font-medium text-sm text-zinc-900 dark:text-zinc-100 hover:text-blue-600 transition-colors">
+                      {task.title}
+                    </Link>
+                    <StatusBadge status={task.status} />
+                  </div>
+                  <div className="flex flex-wrap items-center justify-between text-xs text-zinc-500 dark:text-zinc-400 gap-y-1">
+                    <span>
+                      {task.engagement?.title ?? '—'} · {task.assignedTo?.name ?? 'Unassigned'}
+                    </span>
+                    {task.dueDate && (
+                      <span className="font-mono text-[11px] text-zinc-400">
+                        Due: {new Date(task.dueDate).toLocaleDateString()}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
 
         {/* Pagination */}
@@ -138,6 +176,7 @@ export default function TasksPage() {
           />
         )}
       </main>
+
     </AuthGuard>
   );
 }

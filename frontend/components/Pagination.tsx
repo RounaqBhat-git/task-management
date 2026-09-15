@@ -51,14 +51,14 @@ export default function Pagination({
   }
 
   return (
-    <div className="flex items-center justify-between mt-6 px-1">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6 px-1">
       {/* Item range */}
-      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+      <span className="text-xs text-zinc-500 dark:text-zinc-400 order-2 sm:order-1">
         Showing {startItem}–{endItem} of {totalItems}
       </span>
 
       {/* Page controls */}
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 order-1 sm:order-2 flex-wrap justify-center">
         {/* Previous */}
         <button
           onClick={() => onPageChange(currentPage - 1)}
@@ -74,7 +74,7 @@ export default function Pagination({
           page === '...' ? (
             <span
               key={`ellipsis-${idx}`}
-              className="px-2 py-1.5 text-xs text-zinc-400 dark:text-zinc-500"
+              className="px-1.5 py-1.5 text-xs text-zinc-400 dark:text-zinc-500"
             >
               …
             </span>
@@ -84,7 +84,7 @@ export default function Pagination({
               onClick={() => onPageChange(page)}
               className={`min-w-[32px] px-2 py-1.5 text-xs rounded-lg border transition-colors ${
                 currentPage === page
-                  ? 'bg-zinc-900 text-white border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100'
+                  ? 'bg-zinc-900 text-white border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100 font-semibold'
                   : 'border-zinc-200 dark:border-zinc-600 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700'
               }`}
             >
@@ -105,4 +105,5 @@ export default function Pagination({
       </div>
     </div>
   );
+
 }

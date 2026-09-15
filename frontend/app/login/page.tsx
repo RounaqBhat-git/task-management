@@ -50,15 +50,16 @@ export default function LoginPage() {
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 dark:bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Main Login Card */}
-      <div className="relative w-full max-w-md bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-zinc-200/80 dark:border-zinc-800 shadow-xl rounded-2xl p-8 animate-scale-in">
+      <div className="relative w-full max-w-md bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-zinc-200/80 dark:border-zinc-800 shadow-xl rounded-2xl p-6 sm:p-8 animate-scale-in">
         {/* Header Branding */}
-        <div className="flex flex-col items-center text-center mb-8">
-          <div className="w-12 h-12 rounded-xl bg-zinc-900 dark:bg-zinc-100 flex items-center justify-center text-white dark:text-zinc-900 font-bold text-sm tracking-wider shadow-md mb-3 hover:scale-105 transition-transform">
+        <div className="flex flex-col items-center text-center mb-6 sm:mb-8">
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-zinc-900 dark:bg-zinc-100 flex items-center justify-center text-white dark:text-zinc-900 font-bold text-xs sm:text-sm tracking-wider shadow-md mb-3 hover:scale-105 transition-transform">
             TET
           </div>
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Task Engagement Tool</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Task Engagement Tool</h1>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Sign in to manage tasks & engagements</p>
         </div>
+
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

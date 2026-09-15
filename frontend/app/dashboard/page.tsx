@@ -40,9 +40,9 @@ function TaskRow({ task }: { task: Task }) {
   return (
     <Link
       href={`/tasks/${task.id}`}
-      className="group flex items-center justify-between py-3 px-4 hover:bg-zinc-50/80 dark:hover:bg-zinc-800/50 transition-colors"
+      className="group flex flex-col sm:flex-row sm:items-center justify-between p-3.5 sm:px-4 sm:py-3 hover:bg-zinc-50/80 dark:hover:bg-zinc-800/50 transition-colors gap-2"
     >
-      <div className="flex flex-col gap-0.5 min-w-0">
+      <div className="flex flex-col gap-0.5 min-w-0 flex-1">
         <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
           {task.title}
         </span>
@@ -50,13 +50,13 @@ function TaskRow({ task }: { task: Task }) {
           {task.engagement?.title ?? '—'} · {task.assignedTo?.name ?? 'Unassigned'}
         </span>
       </div>
-      <div className="flex items-center shrink-0 ml-4">
-        <span className="w-24 text-right text-xs text-zinc-400 dark:text-zinc-500 mr-4 shrink-0 font-mono">
-          {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : ''}
-        </span>
-        <div className="w-40 flex justify-end shrink-0">
-          <StatusBadge status={task.status} />
-        </div>
+      <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-1 sm:pt-0 border-t sm:border-t-0 border-zinc-100 dark:border-zinc-800/50">
+        {task.dueDate && (
+          <span className="text-xs text-zinc-400 dark:text-zinc-500 font-mono">
+            {new Date(task.dueDate).toLocaleDateString()}
+          </span>
+        )}
+        <StatusBadge status={task.status} />
       </div>
     </Link>
   );
@@ -82,7 +82,7 @@ function TaskSection({ title, tasks }: { title: string; tasks: Task[] }) {
 function DashboardSkeleton() {
   return (
     <div className="flex flex-col gap-8 animate-pulse">
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
         {Array.from({ length: 5 }).map((_, i) => (
           <div key={i} className="h-24 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200/50 dark:border-zinc-800" />
         ))}
@@ -108,9 +108,9 @@ export default function DashboardPage() {
   return (
     <AuthGuard>
       <Navbar />
-      <main className="flex-1 max-w-5xl mx-auto w-full px-6 py-8 animate-fade-in">
+      <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-8 animate-fade-in">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Dashboard</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Dashboard</h1>
         </div>
 
         {error && (
@@ -120,9 +120,9 @@ export default function DashboardPage() {
         )}
 
         {data ? (
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6 sm:gap-8">
             {/* Summary cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
               <SummaryCard label="Open Tasks"           value={data.summary.open} />
               <SummaryCard label="Overdue"              value={data.summary.overdue}           highlight />
               <SummaryCard label="Due Today"            value={data.summary.dueToday}          highlight />
@@ -144,3 +144,4 @@ export default function DashboardPage() {
     </AuthGuard>
   );
 }
+
