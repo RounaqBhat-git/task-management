@@ -1,0 +1,16 @@
+/* Design Tokens */
+:root {
+  --color-primary: 220 90% 56%; /* hsl: teal */
+  --color-primary-foreground: 0 0% 100%;
+  --color-background: 0 0% 100%;
+  --color-foreground: 220 15% 20%;
+  --color-muted: 210 30% 96%;
+  --radius: 0.5rem;
+  --transition-duration: 200ms;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+.dark {
+  --color-background: 210 15% 12%;
+  --color-foreground: 0 0% 90%;
+  --color-muted: 210 20% 20%;
+}
