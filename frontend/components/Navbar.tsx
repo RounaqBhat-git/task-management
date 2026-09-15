@@ -62,8 +62,9 @@ export default function Navbar() {
 
         {/* Right User Profile & Controls */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Desktop User Avatar & Info */}
           {user && (
-            <div className="flex items-center gap-2 group cursor-default">
+            <div className="hidden sm:flex items-center gap-2 group cursor-default">
               <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-zinc-700 to-zinc-900 dark:from-zinc-200 dark:to-zinc-400 text-white dark:text-zinc-900 flex items-center justify-center text-xs font-bold uppercase shadow-xs group-hover:scale-105 transition-transform duration-200">
                 {user.name ? user.name.charAt(0) : 'U'}
               </div>
@@ -78,6 +79,7 @@ export default function Navbar() {
             </div>
           )}
 
+          {/* Desktop Sign Out Button */}
           <button
             onClick={logout}
             className="hidden sm:inline-flex text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 border border-zinc-200 dark:border-zinc-700 hover:border-red-200 dark:hover:border-red-900/50 rounded-lg px-2.5 py-1 transition-all duration-200 active:scale-95 hover:bg-red-50 dark:hover:bg-red-950/30 hover:shadow-xs"
@@ -89,7 +91,7 @@ export default function Navbar() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Navigation Menu"
-            className="sm:hidden p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 active:scale-95 transition-all"
+            className="sm:hidden p-2 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 active:scale-95 transition-all"
           >
             {mobileMenuOpen ? (
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,18 +130,23 @@ export default function Navbar() {
           </div>
 
           {user && (
-            <div className="pt-2 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
-              <div className="flex flex-col">
-                <span className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-                  {user.name}
-                </span>
-                <span className="text-[10px] text-zinc-500 dark:text-zinc-400 capitalize">
-                  {user.role?.replace('_', ' ')}
-                </span>
+            <div className="pt-3 mt-1 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-zinc-700 to-zinc-900 dark:from-zinc-200 dark:to-zinc-400 text-white dark:text-zinc-900 flex items-center justify-center text-xs font-bold uppercase shadow-xs">
+                  {user.name ? user.name.charAt(0) : 'U'}
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 leading-tight">
+                    {user.name}
+                  </span>
+                  <span className="text-[10px] text-zinc-500 dark:text-zinc-400 capitalize">
+                    {user.role?.replace('_', ' ')}
+                  </span>
+                </div>
               </div>
               <button
                 onClick={logout}
-                className="text-xs font-medium text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/50 rounded-lg px-3 py-1.5 bg-red-50/50 dark:bg-red-950/20 active:scale-95"
+                className="text-xs font-semibold text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/50 rounded-lg px-3 py-1.5 bg-red-50/60 dark:bg-red-950/30 active:scale-95"
               >
                 Sign out
               </button>
@@ -150,4 +157,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
 

@@ -53,13 +53,13 @@ export default function TasksPage() {
           <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Tasks</h1>
         </div>
 
-        {/* Status filter tabs - horizontally scrollable on mobile */}
-        <div className="flex gap-1.5 overflow-x-auto pb-2 sm:pb-0 no-scrollbar mb-6 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
+        {/* Status filter tabs - single-line horizontally scrollable across all screen sizes */}
+        <div className="flex flex-nowrap items-center gap-1.5 overflow-x-auto pb-2.5 pt-0.5 no-scrollbar mb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
           {STATUS_FILTERS.map((f) => (
             <button
               key={f.value}
               onClick={() => setFilter(f.value)}
-              className={`text-xs rounded-full px-3 py-1.5 border shrink-0 transition-all duration-200 active:scale-95 ${
+              className={`text-xs rounded-full px-3.5 py-1.5 border shrink-0 whitespace-nowrap transition-all duration-200 active:scale-95 ${
                 filter === f.value
                   ? 'bg-zinc-900 text-white border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100 font-semibold shadow-xs'
                   : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400 hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-800 dark:hover:border-zinc-600 dark:hover:bg-zinc-800'
@@ -69,6 +69,7 @@ export default function TasksPage() {
             </button>
           ))}
         </div>
+
 
         {error && (
           <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 text-sm text-red-600 dark:text-red-400 mb-6">
